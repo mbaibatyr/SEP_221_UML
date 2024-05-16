@@ -17,6 +17,7 @@ namespace MyConsole
             buildPC.InstalOS();
             buildPC.Disk();
 
+
             //os = new LinuxOS();
             //buildPC = new BuildPC(os);
             //buildPC.InstalOS();
