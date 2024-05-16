@@ -1,5 +1,10 @@
 ﻿using MyConsole.Service;
 
+
+//https://github.com/mbaibatyr/SEP_221_UML
+
+
+
 namespace MyConsole
 {
     internal class Program
@@ -7,12 +12,14 @@ namespace MyConsole
         static void Main(string[] args)
         {
             IOS os = new WindowsOS();
-            BuildPC buildPC = new BuildPC(os);
+            MemoryDisk md = new SSD();
+            BuildPC buildPC = new BuildPC(os, md);
             buildPC.InstalOS();
+            buildPC.Disk();
 
-            os = new LinuxOS();
-            buildPC = new BuildPC(os);
-            buildPC.InstalOS();
+            //os = new LinuxOS();
+            //buildPC = new BuildPC(os);
+            //buildPC.InstalOS();
 
 
 
@@ -21,6 +28,8 @@ namespace MyConsole
             //Console.WriteLine("Hello, World!");
         }
     }
+
+    #region
 
     public class MyReport
     {
@@ -67,10 +76,33 @@ namespace MyConsole
 
     }
 
+    #endregion
     public interface IOS
     {
         string Name { get; set; }
         void Install();
+    }
+
+    public abstract class MemoryDisk
+    {        
+        public abstract void Disk();
+    }
+
+
+    public class SSD : MemoryDisk
+    {
+        public override void Disk()
+        {
+            Console.WriteLine("SSD is installed");
+        }
+    }
+
+    public class HDD : MemoryDisk
+    {
+        public override void Disk()
+        {
+            Console.WriteLine("HDD is installed");
+        }
     }
 
     public class WindowsOS : IOS
@@ -97,10 +129,13 @@ namespace MyConsole
     public class BuildPC
     {
         IOS os;
-        public BuildPC(IOS os)
+        MemoryDisk md;
+        public BuildPC(IOS os,MemoryDisk md)
         {
             this.os = os;
-        }       
+            this.md = md;
+        }
+        
         public string MotherBoard { get; set; }
         public decimal Cost { get; set; }
 
@@ -123,7 +158,10 @@ namespace MyConsole
         {
             os.Install();
         }
-
+        public void Disk()
+        {
+            md.Disk();
+        }
     }
 
 
