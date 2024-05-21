@@ -1,4 +1,5 @@
 ﻿using MyConsole.Service;
+using System.Collections.Generic;
 
 
 //https://github.com/mbaibatyr/SEP_221_UML
@@ -7,15 +8,67 @@
 
 namespace MyConsole
 {
+    class City
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+    abstract class Prototype
+    {
+        public List<City> lst { get; private set; }
+        public Prototype(List<City> lst)
+        {
+            this.lst = lst;
+        }
+        public abstract Prototype Clone();
+    }
+
+    class ConcretePrototype1 : Prototype
+    {
+        public ConcretePrototype1(List<City> lst)
+            : base(lst)
+        { }
+        public override Prototype Clone()
+        {
+            return new ConcretePrototype1(lst);
+        }
+    }
     internal class Program
     {
         static void Main(string[] args)
         {
-            IOS os = new WindowsOS();
-            MemoryDisk md = new SSD();
-            BuildPC buildPC = new BuildPC(os, md);
-            buildPC.InstalOS();
-            buildPC.Disk();
+            List<City> lst = new List<City>()
+            {
+                new City { Id = 1, Name = "Almaty"},
+                new City { Id = 2, Name = "Aktau"},
+                new City { Id = 3, Name = "Astana"}
+            };
+            Prototype prototype = new ConcretePrototype1(lst);
+            Prototype clone = prototype.Clone();
+            Prototype psewdoclone = prototype;
+
+
+            foreach (var item in prototype.lst)
+            {
+                Console.WriteLine($"{item.Id} {item.Name}");
+            }
+
+            foreach (var item in clone.lst)
+            {
+                Console.WriteLine($"{item.Id} {item.Name}");
+            }
+
+            Console.WriteLine(prototype == clone);
+            Console.WriteLine(prototype.Equals(clone));
+
+            Console.WriteLine(psewdoclone.Equals(prototype));
+
+
+            //IOS os = new WindowsOS();
+            //MemoryDisk md = new SSD();
+            //BuildPC buildPC = new BuildPC(os, md);
+            //buildPC.InstalOS();
+            //buildPC.Disk();
 
 
             //os = new LinuxOS();
