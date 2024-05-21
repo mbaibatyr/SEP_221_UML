@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 //https://github.com/mbaibatyr/SEP_221_UML
 
-
-
 namespace MyConsole
 {
     class City
